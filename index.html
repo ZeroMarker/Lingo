@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lingo - 英语学德语</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green: #58CC02;
+            --green-dark: #46A302;
+            --green-light: #E5F2DB;
+            --gray: #E5E5E5;
+            --gray-dark: #AFAFAF;
+            --text-primary: #3C3C3C;
+            --text-secondary: #808080;
+            --error: #FF4B4B;
+            --error-light: #FFD6D6;
+            --gold: #FF9600;
+            --blue: #1CB0F6;
+            --purple: #AFAFAF;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--white);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: var(--white);
+            border-bottom: 3px solid var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 24px;
+            color: var(--green);
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--green);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .streak {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 700;
+            color: var(--gold);
+            font-size: 16px;
+        }
+
+        .streak-icon {
+            font-size: 20px;
+        }
+
+        .hearts {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 700;
+            color: var(--error);
+            font-size: 16px;
+        }
+
+        .heart-icon {
+            font-size: 18px;
+            color: var(--error);
+        }
+
+        /* Main Content */
+        .main {
+            padding-top: 72px;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        /* Home Page */
+        .home-page {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 24px 16px;
+        }
+
+        .course-hero {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(180deg, #FFF8E1 0%, #FFF3CD 100%);
+            border-radius: 20px;
+            margin-bottom: 32px;
+            border: 3px solid var(--gold);
+        }
+
+        .flag {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .course-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .course-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .unit-section {
+            margin-bottom: 32px;
+        }
+
+        .unit-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .unit-number {
+            width: 32px;
+            height: 32px;
+            background: var(--gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .unit-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .lesson-card {
+            background: var(--white);
+            border: 2px solid var(--gray);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .lesson-card:hover {
+            border-color: var(--gray-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .lesson-card.completed {
+            border-color: var(--green);
+            background: linear-gradient(180deg, #FFF 0%, #F0FFF0 100%);
+        }
+
+        .lesson-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .lesson-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .lesson-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .lesson-icon {
+            font-size: 32px;
+        }
+
+        .lesson-progress {
+            height: 10px;
+            background: var(--gray);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+
+        .lesson-progress-bar {
+            height: 100%;
+            background: var(--green);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .lesson-xp {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-top: 8px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--white);
+            border-top: 3px solid var(--gray);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            color: var(--gray-dark);
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: var(--green);
+        }
+
+        .nav-item:hover {
+            color: var(--green);
+        }
+
+        .nav-icon {
+            font-size: 24px;
+        }
+
+        /* Lesson Page */
+        .lesson-page {
+            display: none;
+        }
+
+        .lesson-top {
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 2px solid var(--gray);
+            z-index: 90;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: var(--gray);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            background: var(--gray-dark);
+        }
+
+        .lesson-progress-dots {
+            display: flex;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gray);
+            transition: all 0.3s;
+        }
+
+        .progress-dot.completed {
+            background: var(--green);
+        }
+
+        .progress-dot.current {
+            background: var(--blue);
+            transform: scale(1.2);
+        }
+
+        .lesson-content {
+            padding: 140px 20px 100px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .exercise-type {
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .character-section {
+            background: var(--green-light);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .character {
+            font-size: 80px;
+            margin-bottom: 16px;
+        }
+
+        .german-text {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .english-text {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* Multiple Choice */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 16px 20px;
+            border: 2px solid var(--gray);
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--white);
+        }
+
+        .option:hover {
+            border-color: var(--gray-dark);
+            background: #FAFAFA;
+        }
+
+        .option.selected {
+            border-color: var(--blue);
+            background: #E8F4FD;
+        }
+
+        .option.correct {
+            border-color: var(--green);
+            background: #E8F8E8;
+        }
+
+        .option.incorrect {
+            border-color: var(--error);
+            background: #FFE8E8;
+        }
+
+        /* Translate Input */
+        .translate-section {
+            margin-bottom: 24px;
+        }
+
+        .translate-input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid var(--gray);
+            border-radius: 12px;
+            font-size: 18px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .translate-input:focus {
+            outline: none;
+            border-color: var(--blue);
+        }
+
+        .translate-input.correct {
+            border-color: var(--green);
+            background: #E8F8E8;
+        }
+
+        .translate-input.incorrect {
+            border-color: var(--error);
+            background: #FFE8E8;
+        }
+
+        /* Feedback */
+        .feedback {
+            display: none;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feedback.correct {
+            display: block;
+            background: var(--green-light);
+            border: 2px solid var(--green);
+        }
+
+        .feedback.incorrect {
+            display: block;
+            background: var(--error-light);
+            border: 2px solid var(--error);
+        }
+
+        .feedback-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .feedback.correct .feedback-header {
+            color: var(--green-dark);
+        }
+
+        .feedback.incorrect .feedback-header {
+            color: var(--error);
+        }
+
+        .feedback-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.1);
+            transform: translateY(2px);
+            transition: transform 0.15s;
+        }
+
+        .btn:active::before {
+            transform: translateY(0);
+        }
+
+        .btn:active {
+            transform: translateY(2px);
+        }
+
+        .btn-green {
+            background: var(--green);
+            color: white;
+        }
+
+        .btn-green:hover {
+            background: var(--green-dark);
+        }
+
+        .btn-green:disabled {
+            background: var(--gray);
+            color: var(--gray-dark);
+            cursor: not-allowed;
+        }
+
+        .btn-green:disabled::before {
+            display: none;
+        }
+
+        .btn-blue {
+            background: var(--blue);
+            color: white;
+        }
+
+        .btn-blue:hover {
+            background: #1890D9;
+        }
+
+        .btn-check {
+            margin-top: 16px;
+        }
+
+        .btn-continue {
+            margin-top: 16px;
+        }
+
+        /* Shake Animation */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-8px); }
+            80% { transform: translateX(8px); }
+        }
+
+        .shake {
+            animation: shake 0.4s ease;
+        }
+
+        /* Completion Screen */
+        .completion-page {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .completion-icon {
+            font-size: 80px;
+            margin-bottom: 24px;
+            animation: bounce 0.6s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .completion-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .completion-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 32px;
+        }
+
+        .xp-earned {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 24px;
+        }
+
+        .xp-icon {
+            font-size: 28px;
+        }
+
+        .unit-progress {
+            background: var(--gray);
+            border-radius: 10px;
+            height: 20px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+
+        .unit-progress-bar {
+            height: 100%;
+            background: var(--green);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .unit-progress-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: fall 3s linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Hearts Empty State */
+        .hearts-empty {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .hearts-empty.show {
+            display: block;
+        }
+
+        .hearts-empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .hearts-empty-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .hearts-empty-text {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        /* Footer spacing */
+        .footer-space {
+            height: 80px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .course-title {
+                font-size: 22px;
+            }
+
+            .character {
+                font-size: 60px;
+            }
+
+            .german-text {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">L</div>
+            <span>Lingo</span>
+        </div>
+        <div class="header-right">
+            <div class="streak">
+                <span class="streak-icon">🔥</span>
+                <span id="streak-count">0</span>
+            </div>
+            <div class="hearts">
+                <span class="heart-icon">❤️</span>
+                <span id="hearts-count">5</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Home Page -->
+        <div id="home-page" class="home-page">
+            <div class="course-hero">
+                <div class="flag">🇩🇪</div>
+                <h1 class="course-title">德语</h1>
+                <p class="course-subtitle">从英语学习德语</p>
+            </div>
+
+            <div class="unit-section">
+                <div class="unit-header">
+                    <div class="unit-number">1</div>
+                    <h2 class="unit-title">基础 Basics</h2>
+                </div>
+
+                <!-- Lesson 1: Greetings -->
+                <div class="lesson-card" onclick="startLesson(0)">
+                    <div class="lesson-header">
+                        <div>
+                            <h3 class="lesson-title">打招呼 Greetings</h3>
+                            <p class="lesson-description">你好、再见、请、谢谢</p>
+                            <div class="lesson-xp">+10 XP</div>
+                        </div>
+                        <div class="lesson-icon">👋</div>
+                    </div>
+                    <div class="lesson-progress">
+                        <div class="lesson-progress-bar" id="lesson-0-progress" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Lesson 2: Numbers -->
+                <div class="lesson-card" onclick="startLesson(1)">
+                    <div class="lesson-header">
+                        <div>
+                            <h3 class="lesson-title">数字 Numbers</h3>
+                            <p class="lesson-description">1-10</p>
+                            <div class="lesson-xp">+12 XP</div>
+                        </div>
+                        <div class="lesson-icon">🔢</div>
+                    </div>
+                    <div class="lesson-progress">
+                        <div class="lesson-progress-bar" id="lesson-1-progress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-space"></div>
+        </div>
+
+        <!-- Lesson Page -->
+        <div id="lesson-page" class="lesson-page">
+            <div class="lesson-top">
+                <button class="back-btn" onclick="goHome()">←</button>
+                <div class="lesson-progress-dots" id="progress-dots"></div>
+            </div>
+
+            <div class="lesson-content" id="lesson-content">
+                <!-- Exercise content will be inserted here -->
+            </div>
+
+            <!-- Hearts Empty State -->
+            <div id="hearts-empty" class="hearts-empty">
+                <div class="hearts-empty-icon">❤️</div>
+                <h2 class="hearts-empty-title">小心！</h2>
+                <p class="hearts-empty-text">你用完了所有红心.<br>练习更多来恢复吧!</p>
+                <button class="btn btn-green" onclick="resetHearts()">再试一次</button>
+            </div>
+        </div>
+
+        <!-- Completion Page -->
+        <div id="completion-page" class="completion-page">
+            <div class="completion-icon">🎉</div>
+            <h2 class="completion-title" id="completion-title">太棒了!</h2>
+            <p class="completion-subtitle" id="completion-subtitle">你完成了这节课!</p>
+            <div class="xp-earned">
+                <span class="xp-icon">⭐</span>
+                <span id="xp-earned">+10 XP</span>
+            </div>
+            <div class="unit-progress">
+                <div class="unit-progress-bar" id="unit-progress-bar" style="width: 50%"></div>
+            </div>
+            <p class="unit-progress-text" id="unit-progress-text">50% 单元进度</p>
+            <button class="btn btn-green" onclick="goHome()">继续</button>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="goHome()">
+            <span class="nav-icon">🏠</span>
+            <span>首页</span>
+        </div>
+        <div class="nav-item">
+            <span class="nav-icon">📖</span>
+            <span>课程</span>
+        </div>
+        <div class="nav-item">
+            <span class="nav-icon">⚡</span>
+            <span>练习</span>
+        </div>
+        <div class="nav-item">
+            <span class="nav-icon">👤</span>
+            <span>我的</span>
+        </div>
+    </nav>
+
+    <div class="confetti" id="confetti"></div>
+
+    <script>
+        // Game Data
+        const lessons = [
+            {
+                title: "打招呼 Greetings",
+                exercises: [
+                    {
+                        type: "multiple",
+                        question: "Hello",
+                        correctAnswer: "Hallo",
+                        options: ["Hallo", "Tschüss", "Guten Tag", "Gute Nacht"],
+                        character: "👋"
+                    },
+                    {
+                        type: "multiple",
+                        question: "Goodbye",
+                        correctAnswer: "Auf Wiedersehen",
+                        options: ["Bitte", "Danke", "Auf Wiedersehen", "Guten Morgen"],
+                        character: "👋"
+                    },
+                    {
+                        type: "translate",
+                        question: "Please",
+                        correctAnswer: "Bitte",
+                        character: "🙏"
+                    },
+                    {
+                        type: "multiple",
+                        question: "Thank you",
+                        correctAnswer: "Danke",
+                        options: ["Danke", "Bitte", "Entschuldigung", "Ja"],
+                        character: "🙂"
+                    }
+                ],
+                xp: 10
+            },
+            {
+                title: "数字 Numbers",
+                exercises: [
+                    {
+                        type: "multiple",
+                        question: "One",
+                        correctAnswer: "Eins",
+                        options: ["Zwei", "Eins", "Drei", "Vier"],
+                        character: "1️⃣"
+                    },
+                    {
+                        type: "multiple",
+                        question: "Two",
+                        correctAnswer: "Zwei",
+                        options: ["Eins", "Zwei", "Fünf", "Vier"],
+                        character: "2️⃣"
+                    },
+                    {
+                        type: "translate",
+                        question: "Three",
+                        correctAnswer: "Drei",
+                        character: "3️⃣"
+                    },
+                    {
+                        type: "multiple",
+                        question: "Four",
+                        correctAnswer: "Vier",
+                        options: ["Fünf", "Drei", "Sieben", "Vier"],
+                        character: "4️⃣"
+                    },
+                    {
+                        type: "multiple",
+                        question: "Five",
+                        correctAnswer: "Fünf",
+                        options: ["Fünf", "Sechs", "Acht", "Vier"],
+                        character: "5️⃣"
+                    }
+                ],
+                xp: 12
+            }
+        ];
+
+        // Game State
+        let state = {
+            currentLesson: 0,
+            currentExercise: 0,
+            hearts: 5,
+            streak: 0,
+            xp: 0,
+            lessonProgress: [0, 0],
+            completedLessons: [false, false]
+        };
+
+        // Initialize
+        function init() {
+            loadState();
+            updateUI();
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem('lingo-state');
+            if (saved) {
+                state = JSON.parse(saved);
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem('lingo-state', JSON.stringify(state));
+        }
+
+        function updateUI() {
+            document.getElementById('hearts-count').textContent = state.hearts;
+            document.getElementById('streak-count').textContent = state.streak;
+            document.getElementById('xp-earned').textContent = `+${state.xp} XP`;
+            
+            // Update lesson progress bars
+            for (let i = 0; i < lessons.length; i++) {
+                const progressBar = document.getElementById(`lesson-${i}-progress`);
+                const lessonCard = document.querySelectorAll('.lesson-card')[i];
+                
+                if (state.completedLessons[i]) {
+                    progressBar.style.width = '100%';
+                    lessonCard.classList.add('completed');
+                } else if (state.lessonProgress[i] > 0) {
+                    const exercises = lessons[i].exercises.length;
+                    progressBar.style.width = `${(state.lessonProgress[i] / exercises) * 100}%`;
+                }
+            }
+
+            // Update unit progress
+            const completedCount = state.completedLessons.filter(c => c).length;
+            const progress = (completedCount / lessons.length) * 100;
+            document.getElementById('unit-progress-bar').style.width = `${progress}%`;
+            document.getElementById('unit-progress-text').textContent = `${progress}% 单元进度`;
+        }
+
+        // Navigation
+        function startLesson(lessonIndex) {
+            if (state.hearts <= 0) {
+                showHeartsEmpty();
+                return;
+            }
+            
+            state.currentLesson = lessonIndex;
+            state.currentExercise = 0;
+            showPage('lesson-page');
+            renderExercise();
+        }
+
+        function goHome() {
+            hideHeartsEmpty();
+            showPage('home-page');
+            updateUI();
+        }
+
+        function showPage(pageId) {
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('lesson-page').style.display = 'none';
+            document.getElementById('completion-page').style.display = 'none';
+            
+            if (pageId === 'home-page') {
+                document.getElementById('home-page').style.display = 'block';
+            } else if (pageId === 'lesson-page') {
+                document.getElementById('lesson-page').style.display = 'block';
+            } else if (pageId === 'completion-page') {
+                document.getElementById('completion-page').style.display = 'block';
+            }
+        }
+
+        // Render Exercise
+        function renderExercise() {
+            const lesson = lessons[state.currentLesson];
+            const exercise = lesson.exercises[state.currentExercise];
+            
+            // Update progress dots
+            const dotsContainer = document.getElementById('progress-dots');
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < lesson.exercises.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'progress-dot';
+                if (i < state.lessonProgress[state.currentLesson]) {
+                    dot.classList.add('completed');
+                } else if (i === state.currentExercise) {
+                    dot.classList.add('current');
+                }
+                dotsContainer.appendChild(dot);
+            }
+
+            // Render exercise content
+            const content = document.getElementById('lesson-content');
+            
+            let html = `
+                <p class="exercise-type">${exercise.type === 'multiple' ? '选择正确翻译' : '翻译句子'}</p>
+                <div class="character-section">
+                    <div class="character">${exercise.character}</div>
+                    <div class="german-text">${exercise.correctAnswer}</div>
+                    <div class="english-text">${exercise.question}</div>
+                </div>
+            `;
+
+            if (exercise.type === 'multiple') {
+                html += '<div class="options" id="options">';
+                // Shuffle options
+                const shuffled = [...exercise.options].sort(() => Math.random() - 0.5);
+                shuffled.forEach((option, index) => {
+                    html += `
+                        <div class="option" data-value="${option}" onclick="selectOption(this)">
+                            ${option}
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            } else {
+                html += `
+                    <div class="translate-section">
+                        <input type="text" class="translate-input" id="translate-input" 
+                               placeholder="输入你的翻译..." autocomplete="off">
+                    </div>
+                `;
+            }
+
+            html += `
+                <div class="feedback" id="feedback"></div>
+                <button class="btn btn-green btn-check" id="check-btn" onclick="checkAnswer()" disabled>
+                    检查答案
+                </button>
+            `;
+
+            content.innerHTML = html;
+
+            // Add input listener for translate
+            const input = document.getElementById('translate-input');
+            if (input) {
+                input.addEventListener('input', function() {
+                    const checkBtn = document.getElementById('check-btn');
+                    checkBtn.disabled = this.value.trim() === '';
+                });
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && this.value.trim() !== '') {
+                        checkAnswer();
+                    }
+                });
+            }
+        }
+
+        function selectOption(element) {
+            // Remove previous selection
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            element.classList.add('selected');
+            document.getElementById('check-btn').disabled = false;
+        }
+
+        function checkAnswer() {
+            const lesson = lessons[state.currentLesson];
+            const exercise = lesson.exercises[state.currentExercise];
+            let userAnswer = '';
+            let isCorrect = false;
+
+            if (exercise.type === 'multiple') {
+                const selected = document.querySelector('.option.selected');
+                if (!selected) return;
+                userAnswer = selected.dataset.value;
+                isCorrect = userAnswer === exercise.correctAnswer;
+            } else {
+                const input = document.getElementById('translate-input');
+                userAnswer = input.value.trim().toLowerCase();
+                isCorrect = userAnswer === exercise.correctAnswer.toLowerCase();
+            }
+
+            const feedback = document.getElementById('feedback');
+            const checkBtn = document.getElementById('check-btn');
+
+            if (isCorrect) {
+                // Show correct feedback
+                feedback.className = 'feedback correct';
+                feedback.innerHTML = `
+                    <div class="feedback-header">
+                        <span>✓</span> 正确!
+                    </div>
+                    <p class="feedback-text">+10 XP</p>
+                `;
+
+                // Mark option as correct
+                if (exercise.type === 'multiple') {
+                    document.querySelector('.option.selected').classList.add('correct');
+                } else {
+                    document.getElementById('translate-input').classList.add('correct');
+                }
+
+                // Update state
+                state.lessonProgress[state.currentLesson] = state.currentExercise + 1;
+                state.xp += 10;
+                saveState();
+
+                // Change button to continue
+                checkBtn.textContent = '继续';
+                checkBtn.onclick = nextExercise;
+                checkBtn.disabled = false;
+
+            } else {
+                // Show incorrect feedback
+                feedback.className = 'feedback incorrect';
+                feedback.innerHTML = `
+                    <div class="feedback-header">
+                        <span>✗</span> 错误...
+                    </div>
+                    <p class="feedback-text">正确答案: ${exercise.correctAnswer}</p>
+                `;
+
+                // Mark as incorrect
+                if (exercise.type === 'multiple') {
+                    document.querySelector('.option.selected').classList.add('incorrect');
+                } else {
+                    document.getElementById('translate-input').classList.add('incorrect');
+                }
+
+                // Lose heart
+                state.hearts--;
+                saveState();
+
+                // Shake animation
+                const content = document.getElementById('lesson-content');
+                content.classList.add('shake');
+                setTimeout(() => content.classList.remove('shake'), 400);
+
+                // Check hearts
+                if (state.hearts <= 0) {
+                    checkBtn.textContent = '继续';
+                    checkBtn.onclick = showHeartsEmpty;
+                } else {
+                    checkBtn.textContent = '继续';
+                    checkBtn.onclick = nextExercise;
+                }
+            }
+
+            updateUI();
+        }
+
+        function nextExercise() {
+            const lesson = lessons[state.currentLesson];
+            
+            if (state.currentExercise < lesson.exercises.length - 1) {
+                state.currentExercise++;
+                renderExercise();
+            } else {
+                // Lesson completed
+                completeLesson();
+            }
+        }
+
+        function completeLesson() {
+            const lesson = lessons[state.currentLesson];
+            state.completedLessons[state.currentLesson] = true;
+            state.xp += lesson.xp;
+            saveState();
+
+            // Show completion
+            document.getElementById('completion-title').textContent = '太棒了!';
+            document.getElementById('completion-subtitle').textContent = `你完成了 ${lesson.title}!`;
+            document.getElementById('xp-earned').textContent = `+${state.xp} XP`;
+            
+            showPage('completion-page');
+            createConfetti();
+            updateUI();
+        }
+
+        function showHeartsEmpty() {
+            document.getElementById('lesson-content').style.display = 'none';
+            document.getElementById('hearts-empty').classList.add('show');
+        }
+
+        function hideHeartsEmpty() {
+            document.getElementById('lesson-content').style.display = 'block';
+            document.getElementById('hearts-empty').classList.remove('show');
+        }
+
+        function resetHearts() {
+            state.hearts = 5;
+            state.lessonProgress[state.currentLesson] = 0;
+            saveState();
+            hideHeartsEmpty();
+            renderExercise();
+            updateUI();
+        }
+
+        // Confetti Effect
+        function createConfetti() {
+            const container = document.getElementById('confetti');
+            container.innerHTML = '';
+            
+            const colors = ['#58CC02', '#FF9600', '#1CB0F6', '#FF4B4B', '#FFD700'];
+            
+            for (let i = 0; i < 50; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.animationDelay = Math.random() * 0.5 + 's';
+                piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                container.appendChild(piece);
+            }
+
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 4000);
+        }
+
+        // Initialize on load
+        init();
+    </script>
+</body>
+</html>
